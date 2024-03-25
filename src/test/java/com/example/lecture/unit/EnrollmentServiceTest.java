@@ -31,19 +31,18 @@ class EnrollmentServiceTest {
 	private EnrollmentRepository enrollmentRepository;
 
 	@Test
-	@DisplayName("특강 신청 성공")
+	@DisplayName("특강 신청 성공 테스트")
 	void enrollLectureTest() {
 		// given
 		Long lectureId = 1L;
 		String name = "특강1";
-		String description = "특강 설명1";
 		LectureStatus lectureStatus = LectureStatus.ACTIVE;
 		Long userId = 1L;
 		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
 
 		// when
 		when(lectureRepository.findById(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, description, lectureStatus, new ArrayList<>())));
+			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
 		enrollmentService.enroll(lectureId, enrollmentRequest);
 
@@ -54,7 +53,7 @@ class EnrollmentServiceTest {
 	}
 
 	@Test
-	@DisplayName("특강을 찾지 못했을 경우 에러반환")
+	@DisplayName("특강을 찾지 못했을 경우 에러 반환 테스트")
 	void enrollLectureTest_whenLectureNotFound_thenThrowException() {
 		// given
 		Long lectureId = 1L;
@@ -69,22 +68,59 @@ class EnrollmentServiceTest {
 	}
 
 	@Test
-	@DisplayName("특정 유저가 해당 특강에 이미 신청을 한 상태일경우 에러반환")
+	@DisplayName("특정 유저가 해당 특강에 이미 신청을 한 상태 일경우 에러 반환 테스트")
 	void enrollLectureTest_whenAlreadyEnrolled_thenThrowException() {
 		// given
 		Long lectureId = 1L;
 		String name = "특강1";
-		String description = "특강 설명1";
 		LectureStatus lectureStatus = LectureStatus.ACTIVE;
 		Long userId = 1L;
 		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
 
 		// when
 		when(lectureRepository.findById(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, description, lectureStatus, new ArrayList<>())));
+			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(true);
 
 		// then
 		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest)).isInstanceOf(RuntimeException.class);
+	}
+
+	@Test
+	@DisplayName("특강 신청 여부 확인 테스트")
+	void verifyEnrollmentTest() {
+		// given
+		Long lectureId = 1L;
+		String name = "특강1";
+		LectureStatus lectureStatus = LectureStatus.ACTIVE;
+		Long userId = 1L;
+
+		// when
+		when(lectureRepository.findById(anyLong())).thenReturn(
+			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
+		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(true);
+		enrollmentService.verifyEnrollment(lectureId, userId);
+
+		// then
+		verify(lectureRepository, times(1)).findById(anyLong());
+		verify(enrollmentRepository, times(1)).existsByLecture_IdAndUserId(anyLong(), anyLong());
+	}
+
+	@Test
+	@DisplayName("특강 신청 안 했을 경우 에러 반환 테스트")
+	void verifyEnrollmentTest_whenNotEnrolled_thenThrowException() {
+		// given
+		Long lectureId = 1L;
+		String name = "특강1";
+		LectureStatus lectureStatus = LectureStatus.ACTIVE;
+		Long userId = 1L;
+
+		// when
+		when(lectureRepository.findById(anyLong())).thenReturn(
+			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
+		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
+
+		// then
+		assertThatThrownBy(() -> enrollmentService.verifyEnrollment(lectureId, userId)).isInstanceOf(RuntimeException.class);
 	}
 }

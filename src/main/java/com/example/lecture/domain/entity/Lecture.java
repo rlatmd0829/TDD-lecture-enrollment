@@ -17,12 +17,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "lectures")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class Lecture {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +32,6 @@ public class Lecture {
 
 	@Column(name = "name", length = 30, nullable = false)
 	private String name;
-
-	@Column(name = "description")
-	private String description;
 
 	@Column(name = "lecture_status", length = 30, nullable = false)
 	@Enumerated(EnumType.STRING)

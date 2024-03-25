@@ -4,4 +4,5 @@ import com.example.lecture.dto.request.EnrollmentRequest;
 
 public interface EnrollmentService {
 	void enroll(Long lectureId, EnrollmentRequest enrollmentRequest);
+	void verifyEnrollment(Long lectureId, Long userId);
 }

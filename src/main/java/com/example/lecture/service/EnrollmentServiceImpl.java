@@ -3,6 +3,7 @@ package com.example.lecture.service;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.lecture.domain.entity.Enrollment;
 import com.example.lecture.domain.entity.Lecture;
@@ -10,7 +11,6 @@ import com.example.lecture.dto.request.EnrollmentRequest;
 import com.example.lecture.repository.EnrollmentRepository;
 import com.example.lecture.repository.LectureRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -33,5 +33,17 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 		Enrollment enrollment = Enrollment.create(lecture, enrollmentRequest);
 		enrollmentRepository.save(enrollment);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public void verifyEnrollment(Long lectureId, Long userId) {
+		Lecture lecture = lectureRepository.findById(lectureId)
+			.orElseThrow(() -> new NoSuchElementException("강의를 찾을 수 없습니다. lectureId: " + lectureId));
+
+		boolean enrollmentExists = enrollmentRepository.existsByLecture_IdAndUserId(lecture.getId(), userId);
+		if (!enrollmentExists) {
+			throw new RuntimeException("신청 명단에 없습니다.");
+		}
 	}
 }
