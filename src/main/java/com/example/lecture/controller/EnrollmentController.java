@@ -14,7 +14,6 @@ import com.example.lecture.dto.request.EnrollmentRequest;
 import com.example.lecture.service.EnrollmentService;
 
 import jakarta.validation.Valid;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RestController

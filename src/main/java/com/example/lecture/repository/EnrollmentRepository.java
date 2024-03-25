@@ -9,4 +9,6 @@ import com.example.lecture.domain.entity.Lecture;
 
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 	boolean existsByLecture_IdAndUserId(Long lectureId, Long userId);
+
+	int countByLecture_Id(Long lectureId);
 }

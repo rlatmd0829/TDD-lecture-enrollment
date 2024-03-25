@@ -44,13 +44,15 @@ class EnrollmentServiceTest {
 		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
 
 		// when
-		when(lectureRepository.findById(anyLong())).thenReturn(
+		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(
 			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
+		when(enrollmentRepository.countByLecture_Id(anyLong())).thenReturn(0);
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
 		enrollmentService.enroll(lectureId, enrollmentRequest);
 
 		// then
-		verify(lectureRepository, times(1)).findById(anyLong());
+		verify(lectureRepository, times(1)).findByIdWithLock(anyLong());
+		verify(enrollmentRepository, times(1)).countByLecture_Id(anyLong());
 		verify(enrollmentRepository, times(1)).existsByLecture_IdAndUserId(anyLong(), anyLong());
 		verify(enrollmentRepository, times(1)).save(any());
 	}
@@ -64,7 +66,7 @@ class EnrollmentServiceTest {
 		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
 
 		// when
-		when(lectureRepository.findById(anyLong())).thenReturn(Optional.empty());
+		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(Optional.empty());
 
 		// then
 		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest))
@@ -83,8 +85,9 @@ class EnrollmentServiceTest {
 		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
 
 		// when
-		when(lectureRepository.findById(anyLong())).thenReturn(
+		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(
 			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
+		when(enrollmentRepository.countByLecture_Id(anyLong())).thenReturn(0);
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(true);
 
 		// then
@@ -109,9 +112,9 @@ class EnrollmentServiceTest {
 		}
 
 		// when
-		when(lectureRepository.findById(anyLong())).thenReturn(
+		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(
 			Optional.of(new Lecture(lectureId, name, lectureStatus, enrollments)));
-		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
+		when(enrollmentRepository.countByLecture_Id(anyLong())).thenReturn(MAX_ENROLLMENT_LIMIT);
 
 		// then
 		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest))

@@ -27,20 +27,24 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 	@Override
 	public void enroll(Long lectureId, EnrollmentRequest enrollmentRequest) {
-		Lecture lecture = lectureRepository.findById(lectureId)
+		Lecture lecture = lectureRepository.findByIdWithLock(lectureId)
 			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_LECTURE));
 
-		boolean enrollmentExists = enrollmentRepository.existsByLecture_IdAndUserId(lectureId, enrollmentRequest.userId());
+		if (enrollmentRepository.countByLecture_Id(lectureId) >= MAX_ENROLLMENT_LIMIT) {
+			throw new CustomException(ErrorCode.ENROLLMENT_LIMIT_EXCEEDED);
+		}
+
+		boolean enrollmentExists = enrollmentRepository.existsByLecture_IdAndUserId(lecture.getId(), enrollmentRequest.userId());
 		if (enrollmentExists) {
 			throw new CustomException(ErrorCode.DUPLICATE_ENROLLMENT);
 		}
 
-		if (lecture.isEnrollmentLimitExceeded(MAX_ENROLLMENT_LIMIT)) {
-			throw new CustomException(ErrorCode.ENROLLMENT_LIMIT_EXCEEDED);
-		}
-
-		Enrollment enrollment = Enrollment.create(lecture, enrollmentRequest);
+		Enrollment enrollment = Enrollment.builder()
+			.lecture(lecture)
+			.userId(enrollmentRequest.userId())
+			.build();
 		enrollmentRepository.save(enrollment);
+
 	}
 
 	@Override
