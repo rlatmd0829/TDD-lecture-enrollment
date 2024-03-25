@@ -39,4 +39,8 @@ public class Lecture {
 
 	@OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Enrollment> enrollments = new ArrayList<>();
+
+	public boolean isEnrollmentLimitExceeded(int maxEnrollmentLimit) {
+		return enrollments.size() >= maxEnrollmentLimit;
+	}
 }

@@ -1,6 +1,7 @@
 package com.example.lecture.service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 	private final LectureRepository lectureRepository;
 	private final EnrollmentRepository enrollmentRepository;
+	private static final int MAX_ENROLLMENT_LIMIT = 30;
 
 	@Override
 	public void enroll(Long lectureId, EnrollmentRequest enrollmentRequest) {
@@ -31,6 +33,10 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 		boolean enrollmentExists = enrollmentRepository.existsByLecture_IdAndUserId(lectureId, enrollmentRequest.userId());
 		if (enrollmentExists) {
 			throw new CustomException(ErrorCode.DUPLICATE_ENROLLMENT);
+		}
+
+		if (lecture.isEnrollmentLimitExceeded(MAX_ENROLLMENT_LIMIT)) {
+			throw new CustomException(ErrorCode.ENROLLMENT_LIMIT_EXCEEDED);
 		}
 
 		Enrollment enrollment = Enrollment.create(lecture, enrollmentRequest);

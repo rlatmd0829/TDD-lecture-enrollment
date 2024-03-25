@@ -4,7 +4,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.example.lecture.domain.entity.Enrollment;
 import com.example.lecture.domain.entity.Lecture;
 import com.example.lecture.domain.enumclass.LectureStatus;
 import com.example.lecture.dto.request.EnrollmentRequest;
@@ -31,6 +31,7 @@ class EnrollmentServiceTest {
 	private LectureRepository lectureRepository;
 	@Mock
 	private EnrollmentRepository enrollmentRepository;
+	private static final int MAX_ENROLLMENT_LIMIT = 30;
 
 	@Test
 	@DisplayName("특강 신청 성공 테스트")
@@ -90,6 +91,32 @@ class EnrollmentServiceTest {
 		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest))
 			.isInstanceOf(CustomException.class)
 			.hasFieldOrPropertyWithValue("errorCode", ErrorCode.DUPLICATE_ENROLLMENT);
+	}
+
+	@Test
+	@DisplayName("특강 정원 초과 예외 발생 테스트")
+	void enrollLectureTest_WhenEnrollmentLimitExceeded_ThenThrowException() {
+		// given
+		Long lectureId = 1L;
+		String name = "특강1";
+		LectureStatus lectureStatus = LectureStatus.ACTIVE;
+		Long userId = 1L;
+		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
+		ArrayList<Enrollment> enrollments = new ArrayList<>();
+
+		for (int i = 0; i < MAX_ENROLLMENT_LIMIT; i++) {
+			enrollments.add(new Enrollment());
+		}
+
+		// when
+		when(lectureRepository.findById(anyLong())).thenReturn(
+			Optional.of(new Lecture(lectureId, name, lectureStatus, enrollments)));
+		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
+
+		// then
+		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest))
+			.isInstanceOf(CustomException.class)
+			.hasFieldOrPropertyWithValue("errorCode", ErrorCode.ENROLLMENT_LIMIT_EXCEEDED);
 	}
 
 	@Test
