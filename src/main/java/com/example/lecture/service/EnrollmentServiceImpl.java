@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.lecture.domain.entity.Enrollment;
 import com.example.lecture.domain.entity.Lecture;
 import com.example.lecture.dto.request.EnrollmentRequest;
+import com.example.lecture.exception.CustomException;
+import com.example.lecture.exception.ErrorCode;
 import com.example.lecture.repository.EnrollmentRepository;
 import com.example.lecture.repository.LectureRepository;
 
@@ -24,11 +26,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 	@Override
 	public void enroll(Long lectureId, EnrollmentRequest enrollmentRequest) {
 		Lecture lecture = lectureRepository.findById(lectureId)
-			.orElseThrow(() -> new NoSuchElementException("강의를 찾을 수 없습니다. lectureId: " + lectureId));
+			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_LECTURE));
 
 		boolean enrollmentExists = enrollmentRepository.existsByLecture_IdAndUserId(lectureId, enrollmentRequest.userId());
 		if (enrollmentExists) {
-			throw new RuntimeException("이미 특강 신청을 했습니다.");
+			throw new CustomException(ErrorCode.DUPLICATE_ENROLLMENT);
 		}
 
 		Enrollment enrollment = Enrollment.create(lecture, enrollmentRequest);
@@ -39,11 +41,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 	@Transactional(readOnly = true)
 	public void verifyEnrollment(Long lectureId, Long userId) {
 		Lecture lecture = lectureRepository.findById(lectureId)
-			.orElseThrow(() -> new NoSuchElementException("강의를 찾을 수 없습니다. lectureId: " + lectureId));
+			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_LECTURE));
 
 		boolean enrollmentExists = enrollmentRepository.existsByLecture_IdAndUserId(lecture.getId(), userId);
 		if (!enrollmentExists) {
-			throw new RuntimeException("신청 명단에 없습니다.");
+			throw new CustomException(ErrorCode.NOT_FOUND_ENROLLMENT);
 		}
 	}
 }

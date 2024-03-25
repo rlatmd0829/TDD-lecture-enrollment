@@ -17,6 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.example.lecture.domain.entity.Lecture;
 import com.example.lecture.domain.enumclass.LectureStatus;
 import com.example.lecture.dto.request.EnrollmentRequest;
+import com.example.lecture.exception.CustomException;
+import com.example.lecture.exception.ErrorCode;
 import com.example.lecture.repository.EnrollmentRepository;
 import com.example.lecture.repository.LectureRepository;
 import com.example.lecture.service.EnrollmentServiceImpl;
@@ -64,7 +66,9 @@ class EnrollmentServiceTest {
 		when(lectureRepository.findById(anyLong())).thenReturn(Optional.empty());
 
 		// then
-		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest)).isInstanceOf(NoSuchElementException.class);
+		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest))
+			.isInstanceOf(CustomException.class)
+			.hasFieldOrPropertyWithValue("errorCode", ErrorCode.NOT_FOUND_LECTURE);
 	}
 
 	@Test
@@ -83,7 +87,9 @@ class EnrollmentServiceTest {
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(true);
 
 		// then
-		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest)).isInstanceOf(RuntimeException.class);
+		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest))
+			.isInstanceOf(CustomException.class)
+			.hasFieldOrPropertyWithValue("errorCode", ErrorCode.DUPLICATE_ENROLLMENT);
 	}
 
 	@Test
@@ -121,6 +127,8 @@ class EnrollmentServiceTest {
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
 
 		// then
-		assertThatThrownBy(() -> enrollmentService.verifyEnrollment(lectureId, userId)).isInstanceOf(RuntimeException.class);
+		assertThatThrownBy(() -> enrollmentService.verifyEnrollment(lectureId, userId))
+			.isInstanceOf(CustomException.class)
+			.hasFieldOrPropertyWithValue("errorCode", ErrorCode.NOT_FOUND_ENROLLMENT);
 	}
 }
