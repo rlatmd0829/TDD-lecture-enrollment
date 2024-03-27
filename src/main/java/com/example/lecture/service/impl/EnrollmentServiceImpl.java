@@ -1,4 +1,4 @@
-package com.example.lecture.service;
+package com.example.lecture.service.impl;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -13,6 +13,7 @@ import com.example.lecture.exception.CustomException;
 import com.example.lecture.exception.ErrorCode;
 import com.example.lecture.repository.EnrollmentRepository;
 import com.example.lecture.repository.LectureRepository;
+import com.example.lecture.service.EnrollmentService;
 
 import lombok.RequiredArgsConstructor;
 

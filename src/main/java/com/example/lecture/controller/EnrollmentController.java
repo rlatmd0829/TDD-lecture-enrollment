@@ -18,12 +18,12 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/lecture")
+@RequestMapping("/lectures/{lectureId}")
 public class EnrollmentController {
 
 	private final EnrollmentService enrollmentService;
 
-	@PostMapping("/{lectureId}/enrollment")
+	@PostMapping("/enrollments")
 	public ResponseEntity<Void> enroll(
 		@PathVariable Long lectureId,
 		@Valid @RequestBody EnrollmentRequest enrollmentRequest
@@ -32,7 +32,7 @@ public class EnrollmentController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
-	@GetMapping("/{lectureId}/enrollment")
+	@GetMapping("/enrollments")
 	public ResponseEntity<Void> verifyEnrollment(
 		@PathVariable Long lectureId,
 		@RequestParam Long userId

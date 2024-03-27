@@ -3,6 +3,7 @@ package com.example.lecture.unit;
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.mockito.Mockito.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -15,13 +16,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.lecture.domain.entity.Enrollment;
 import com.example.lecture.domain.entity.Lecture;
-import com.example.lecture.domain.enumclass.LectureStatus;
 import com.example.lecture.dto.request.EnrollmentRequest;
 import com.example.lecture.exception.CustomException;
 import com.example.lecture.exception.ErrorCode;
 import com.example.lecture.repository.EnrollmentRepository;
 import com.example.lecture.repository.LectureRepository;
-import com.example.lecture.service.EnrollmentServiceImpl;
+import com.example.lecture.service.impl.EnrollmentServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class EnrollmentServiceTest {
@@ -39,13 +39,12 @@ class EnrollmentServiceTest {
 		// given
 		Long lectureId = 1L;
 		String name = "특강1";
-		LectureStatus lectureStatus = LectureStatus.ACTIVE;
 		Long userId = 1L;
 		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
 
 		// when
 		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
+			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), new ArrayList<>())));
 		when(enrollmentRepository.countByLecture_Id(anyLong())).thenReturn(0);
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
 		enrollmentService.enroll(lectureId, enrollmentRequest);
@@ -80,13 +79,12 @@ class EnrollmentServiceTest {
 		// given
 		Long lectureId = 1L;
 		String name = "특강1";
-		LectureStatus lectureStatus = LectureStatus.ACTIVE;
 		Long userId = 1L;
 		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
 
 		// when
 		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
+			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), new ArrayList<>())));
 		when(enrollmentRepository.countByLecture_Id(anyLong())).thenReturn(0);
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(true);
 
@@ -102,7 +100,6 @@ class EnrollmentServiceTest {
 		// given
 		Long lectureId = 1L;
 		String name = "특강1";
-		LectureStatus lectureStatus = LectureStatus.ACTIVE;
 		Long userId = 1L;
 		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
 		ArrayList<Enrollment> enrollments = new ArrayList<>();
@@ -113,7 +110,7 @@ class EnrollmentServiceTest {
 
 		// when
 		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, lectureStatus, enrollments)));
+			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), enrollments)));
 		when(enrollmentRepository.countByLecture_Id(anyLong())).thenReturn(MAX_ENROLLMENT_LIMIT);
 
 		// then
@@ -128,12 +125,11 @@ class EnrollmentServiceTest {
 		// given
 		Long lectureId = 1L;
 		String name = "특강1";
-		LectureStatus lectureStatus = LectureStatus.ACTIVE;
 		Long userId = 1L;
 
 		// when
 		when(lectureRepository.findById(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
+			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), new ArrayList<>())));
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(true);
 		enrollmentService.verifyEnrollment(lectureId, userId);
 
@@ -148,12 +144,11 @@ class EnrollmentServiceTest {
 		// given
 		Long lectureId = 1L;
 		String name = "특강1";
-		LectureStatus lectureStatus = LectureStatus.ACTIVE;
 		Long userId = 1L;
 
 		// when
 		when(lectureRepository.findById(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, lectureStatus, new ArrayList<>())));
+			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), new ArrayList<>())));
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
 
 		// then

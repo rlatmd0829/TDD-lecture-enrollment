@@ -1,8 +1,8 @@
 package com.example.lecture.integration;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
-import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -19,10 +19,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.example.lecture.domain.entity.Lecture;
-import com.example.lecture.domain.enumclass.LectureStatus;
 import com.example.lecture.dto.request.EnrollmentRequest;
 import com.example.lecture.repository.LectureRepository;
-import com.example.lecture.service.EnrollmentServiceImpl;
+import com.example.lecture.service.impl.EnrollmentServiceImpl;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -36,7 +35,7 @@ class EnrollmentServiceTest {
 
 	@BeforeEach
 	void setUp() {
-		lectureRepository.save(new Lecture(1L, "특강1", LectureStatus.ACTIVE, new ArrayList<>()));
+		lectureRepository.save(new Lecture(1L, "특강1", LocalDateTime.now(), new ArrayList<>()));
 	}
 
 	@Test

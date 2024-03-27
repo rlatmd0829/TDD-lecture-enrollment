@@ -1,5 +1,6 @@
 package com.example.lecture.domain.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,8 @@ public class Lecture {
 	@Column(name = "name", length = 30, nullable = false)
 	private String name;
 
-	@Column(name = "lecture_status", length = 30, nullable = false)
-	@Enumerated(EnumType.STRING)
-	private LectureStatus lectureStatus;
+	@Column(name = "start_date", nullable = false)
+	private LocalDateTime startDate;
 
 	@OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Enrollment> enrollments = new ArrayList<>();

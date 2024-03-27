@@ -1,5 +1,7 @@
 package com.example.lecture.repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +18,6 @@ public interface LectureRepository extends JpaRepository<Lecture, Long> {
 	@Query("SELECT l FROM Lecture l WHERE l.id = :id")
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	Optional<Lecture> findByIdWithLock(@Param("id") Long id);
+
+	List<Lecture> findAllByStartDateAfter(LocalDateTime startDate);
 }
