@@ -20,7 +20,8 @@ public class LectureServiceImpl implements LectureService {
 	private final LectureRepository lectureRepository;
 
 	@Override
-	public List<LectureResponse> lectures() {
+	@Transactional(readOnly = true)
+	public List<LectureResponse> getLectures() {
 		return lectureRepository.findAllByStartDateAfter(LocalDateTime.now()).stream()
 			.map(LectureResponse::of)
 			.toList();

@@ -23,6 +23,6 @@ public class LectureController {
 	@GetMapping
 	public ResponseEntity<List<LectureResponse>> getLectures(
 	) {
-		return new ResponseEntity<>(lectureService.lectures(), HttpStatus.OK);
+		return new ResponseEntity<>(lectureService.getLectures(), HttpStatus.OK);
 	}
 }
