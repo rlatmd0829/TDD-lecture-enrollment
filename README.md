@@ -47,7 +47,7 @@
 - junit5
 
 ## ERD
-![image](https://github.com/rlatmd0829/TDD-lecture-enrollment/assets/70622731/1e820b3f-ce5e-46d2-b083-7c5744248442)
+![image](https://github.com/rlatmd0829/TDD-lecture-enrollment/assets/70622731/317b08ff-18d3-420a-b94e-e80d2a67d5f6)
 
 ## 진행현황
 
@@ -62,5 +62,9 @@
 
 ### 심화
 - [x]  특강 목록 조회 api 작성 및 단위테스트 작성
+- [x]  레이어드 아키텍처 재구성
+- [x]  lecture에 capacity 추가 및 count 로직 리팩토링
+- [ ]  enrollment 유니크키 추가
 - [ ]  통합테스트 작성
+- [ ]  repositoy 테스트 작성
 - [ ]  리팩토링
