@@ -1,10 +1,8 @@
-package com.example.lecture.domain;
+package com.example.lecture.domain.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.lecture.domain.Enrollment;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

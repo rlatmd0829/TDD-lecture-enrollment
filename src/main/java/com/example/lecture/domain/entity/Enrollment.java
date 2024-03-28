@@ -1,4 +1,4 @@
-package com.example.lecture.domain;
+package com.example.lecture.domain.entity;
 
 import com.example.lecture.application.request.EnrollmentRequest;
 

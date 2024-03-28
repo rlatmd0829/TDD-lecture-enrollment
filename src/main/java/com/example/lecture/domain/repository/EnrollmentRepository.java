@@ -1,6 +1,6 @@
 package com.example.lecture.domain.repository;
 
-import com.example.lecture.domain.Enrollment;
+import com.example.lecture.domain.entity.Enrollment;
 
 
 public interface EnrollmentRepository {

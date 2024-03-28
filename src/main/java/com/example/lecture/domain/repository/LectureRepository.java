@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-import com.example.lecture.domain.Lecture;
+import com.example.lecture.domain.entity.Lecture;
 
 
 public interface LectureRepository {

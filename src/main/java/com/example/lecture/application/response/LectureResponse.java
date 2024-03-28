@@ -2,7 +2,7 @@ package com.example.lecture.application.response;
 
 import java.time.LocalDateTime;
 
-import com.example.lecture.domain.Lecture;
+import com.example.lecture.domain.entity.Lecture;
 
 public record LectureResponse(
 	Long lectureId,

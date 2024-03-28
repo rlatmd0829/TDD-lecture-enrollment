@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.example.lecture.domain.Lecture;
+import com.example.lecture.domain.entity.Lecture;
 import com.example.lecture.infra.LectureJpaRepository;
 
 import lombok.RequiredArgsConstructor;
