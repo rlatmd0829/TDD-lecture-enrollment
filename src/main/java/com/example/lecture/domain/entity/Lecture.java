@@ -30,9 +30,16 @@ public class Lecture {
 	@Column(name = "name", length = 30, nullable = false)
 	private String name;
 
+	@Column(name = "capacity", nullable = false)
+	private int capacity;
+
 	@Column(name = "start_date", nullable = false)
 	private LocalDateTime startDate;
 
 	@OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Enrollment> enrollments = new ArrayList<>();
+
+	public boolean isFull() {
+		return this.enrollments.size() >= this.capacity;
+	}
 }

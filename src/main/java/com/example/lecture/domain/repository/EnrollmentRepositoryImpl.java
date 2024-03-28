@@ -18,11 +18,6 @@ public class EnrollmentRepositoryImpl implements EnrollmentRepository {
 	}
 
 	@Override
-	public int countByLecture_Id(Long lectureId) {
-		return enrollmentJpaRepository.countByLecture_Id(lectureId);
-	}
-
-	@Override
 	public void save(Enrollment enrollment) {
 		enrollmentJpaRepository.save(enrollment);
 	}

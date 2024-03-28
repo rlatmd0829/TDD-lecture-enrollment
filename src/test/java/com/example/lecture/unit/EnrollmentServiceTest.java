@@ -31,7 +31,6 @@ class EnrollmentServiceTest {
 	private LectureRepository lectureRepository;
 	@Mock
 	private EnrollmentRepository enrollmentRepository;
-	private static final int MAX_ENROLLMENT_LIMIT = 30;
 
 	@Test
 	@DisplayName("특강 신청 성공 테스트")
@@ -44,14 +43,12 @@ class EnrollmentServiceTest {
 
 		// when
 		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), new ArrayList<>())));
-		when(enrollmentRepository.countByLecture_Id(anyLong())).thenReturn(0);
+			Optional.of(new Lecture(lectureId, name, 30, LocalDateTime.now(), new ArrayList<>())));
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
 		enrollmentService.enroll(lectureId, enrollmentRequest);
 
 		// then
 		verify(lectureRepository, times(1)).findByIdWithLock(anyLong());
-		verify(enrollmentRepository, times(1)).countByLecture_Id(anyLong());
 		verify(enrollmentRepository, times(1)).existsByLecture_IdAndUserId(anyLong(), anyLong());
 		verify(enrollmentRepository, times(1)).save(any());
 	}
@@ -84,8 +81,7 @@ class EnrollmentServiceTest {
 
 		// when
 		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), new ArrayList<>())));
-		when(enrollmentRepository.countByLecture_Id(anyLong())).thenReturn(0);
+			Optional.of(new Lecture(lectureId, name, 30, LocalDateTime.now(), new ArrayList<>())));
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(true);
 
 		// then
@@ -104,14 +100,13 @@ class EnrollmentServiceTest {
 		EnrollmentRequest enrollmentRequest = new EnrollmentRequest(userId);
 		ArrayList<Enrollment> enrollments = new ArrayList<>();
 
-		for (int i = 0; i < MAX_ENROLLMENT_LIMIT; i++) {
+		for (int i = 0; i < 30; i++) {
 			enrollments.add(new Enrollment());
 		}
 
 		// when
 		when(lectureRepository.findByIdWithLock(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), enrollments)));
-		when(enrollmentRepository.countByLecture_Id(anyLong())).thenReturn(MAX_ENROLLMENT_LIMIT);
+			Optional.of(new Lecture(lectureId, name, 30, LocalDateTime.now(), enrollments)));
 
 		// then
 		assertThatThrownBy(() -> enrollmentService.enroll(lectureId, enrollmentRequest))
@@ -129,7 +124,7 @@ class EnrollmentServiceTest {
 
 		// when
 		when(lectureRepository.findById(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), new ArrayList<>())));
+			Optional.of(new Lecture(lectureId, name, 30, LocalDateTime.now(), new ArrayList<>())));
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(true);
 		enrollmentService.verifyEnrollment(lectureId, userId);
 
@@ -148,7 +143,7 @@ class EnrollmentServiceTest {
 
 		// when
 		when(lectureRepository.findById(anyLong())).thenReturn(
-			Optional.of(new Lecture(lectureId, name, LocalDateTime.now(), new ArrayList<>())));
+			Optional.of(new Lecture(lectureId, name, 30, LocalDateTime.now(), new ArrayList<>())));
 		when(enrollmentRepository.existsByLecture_IdAndUserId(anyLong(), anyLong())).thenReturn(false);
 
 		// then

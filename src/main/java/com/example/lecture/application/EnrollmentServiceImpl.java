@@ -20,14 +20,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
 	private final LectureRepository lectureRepository;
 	private final EnrollmentRepository enrollmentRepository;
-	private static final int MAX_ENROLLMENT_LIMIT = 30;
 
 	@Override
 	public void enroll(Long lectureId, EnrollmentRequest enrollmentRequest) {
 		Lecture lecture = lectureRepository.findByIdWithLock(lectureId)
 			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_LECTURE));
 
-		if (enrollmentRepository.countByLecture_Id(lectureId) >= MAX_ENROLLMENT_LIMIT) {
+		if (lecture.isFull()) {
 			throw new CustomException(ErrorCode.ENROLLMENT_LIMIT_EXCEEDED);
 		}
 

@@ -35,7 +35,7 @@ class EnrollmentServiceTest {
 
 	@BeforeEach
 	void setUp() {
-		lectureRepository.save(new Lecture(1L, "특강1", LocalDateTime.now(), new ArrayList<>()));
+		lectureRepository.save(new Lecture(1L, "특강1", 30, LocalDateTime.now(), new ArrayList<>()));
 	}
 
 	@Test

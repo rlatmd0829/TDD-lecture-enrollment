@@ -32,10 +32,10 @@ class LectureControllerTest {
 
 	@BeforeEach
 	void setUp() {
-		Lecture lecture1 = new Lecture(1L, "특강1", LocalDateTime.now().plusDays(1), new ArrayList<>());
-		Lecture lecture2 = new Lecture(2L, "특강2", LocalDateTime.now().minusDays(1), new ArrayList<>());
-		Lecture lecture3 = new Lecture(3L, "특강3", LocalDateTime.now().plusDays(10), new ArrayList<>());
-		Lecture lecture4 = new Lecture(4L, "특강3", LocalDateTime.now(), new ArrayList<>());
+		Lecture lecture1 = new Lecture(1L, "특강1", 30, LocalDateTime.now().plusDays(1), new ArrayList<>());
+		Lecture lecture2 = new Lecture(2L, "특강2", 30,  LocalDateTime.now().minusDays(1), new ArrayList<>());
+		Lecture lecture3 = new Lecture(3L, "특강3", 30, LocalDateTime.now().plusDays(10), new ArrayList<>());
+		Lecture lecture4 = new Lecture(4L, "특강3", 30, LocalDateTime.now(), new ArrayList<>());
 		lectureRepository.save(lecture1);
 		lectureRepository.save(lecture2);
 		lectureRepository.save(lecture3);
