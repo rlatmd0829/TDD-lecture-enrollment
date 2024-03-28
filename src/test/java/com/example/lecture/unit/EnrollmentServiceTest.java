@@ -14,14 +14,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.lecture.domain.entity.Enrollment;
-import com.example.lecture.domain.entity.Lecture;
-import com.example.lecture.dto.request.EnrollmentRequest;
-import com.example.lecture.exception.CustomException;
-import com.example.lecture.exception.ErrorCode;
-import com.example.lecture.repository.EnrollmentRepository;
-import com.example.lecture.repository.LectureRepository;
-import com.example.lecture.service.impl.EnrollmentServiceImpl;
+import com.example.lecture.domain.Enrollment;
+import com.example.lecture.domain.Lecture;
+import com.example.lecture.application.request.EnrollmentRequest;
+import com.example.lecture.application.exception.CustomException;
+import com.example.lecture.application.exception.ErrorCode;
+import com.example.lecture.domain.repository.EnrollmentRepository;
+import com.example.lecture.domain.repository.LectureRepository;
+import com.example.lecture.application.EnrollmentServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class EnrollmentServiceTest {

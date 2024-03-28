@@ -1,8 +1,8 @@
-package com.example.lecture.dto.response;
+package com.example.lecture.application.response;
 
 import java.time.LocalDateTime;
 
-import com.example.lecture.domain.entity.Lecture;
+import com.example.lecture.domain.Lecture;
 
 public record LectureResponse(
 	Long lectureId,

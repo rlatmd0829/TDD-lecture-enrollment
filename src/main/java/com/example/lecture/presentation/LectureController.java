@@ -1,4 +1,4 @@
-package com.example.lecture.controller;
+package com.example.lecture.presentation;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.lecture.dto.response.LectureResponse;
-import com.example.lecture.service.LectureService;
+import com.example.lecture.application.response.LectureResponse;
+import com.example.lecture.application.LectureService;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.example.lecture.controller;
+package com.example.lecture.presentation;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.lecture.dto.request.EnrollmentRequest;
-import com.example.lecture.service.EnrollmentService;
+import com.example.lecture.application.request.EnrollmentRequest;
+import com.example.lecture.application.EnrollmentService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.lecture.dto.request;
+package com.example.lecture.application.request;
 
 public record EnrollmentRequest(
 	Long userId

@@ -1,19 +1,15 @@
-package com.example.lecture.service.impl;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
+package com.example.lecture.application;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.lecture.domain.entity.Enrollment;
-import com.example.lecture.domain.entity.Lecture;
-import com.example.lecture.dto.request.EnrollmentRequest;
-import com.example.lecture.exception.CustomException;
-import com.example.lecture.exception.ErrorCode;
-import com.example.lecture.repository.EnrollmentRepository;
-import com.example.lecture.repository.LectureRepository;
-import com.example.lecture.service.EnrollmentService;
+import com.example.lecture.domain.Enrollment;
+import com.example.lecture.domain.Lecture;
+import com.example.lecture.application.request.EnrollmentRequest;
+import com.example.lecture.application.exception.CustomException;
+import com.example.lecture.application.exception.ErrorCode;
+import com.example.lecture.domain.repository.EnrollmentRepository;
+import com.example.lecture.domain.repository.LectureRepository;
 
 import lombok.RequiredArgsConstructor;
 

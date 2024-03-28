@@ -18,10 +18,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.example.lecture.domain.entity.Lecture;
-import com.example.lecture.dto.request.EnrollmentRequest;
-import com.example.lecture.repository.LectureRepository;
-import com.example.lecture.service.impl.EnrollmentServiceImpl;
+import com.example.lecture.domain.Lecture;
+import com.example.lecture.application.request.EnrollmentRequest;
+import com.example.lecture.domain.repository.LectureRepository;
+import com.example.lecture.application.EnrollmentServiceImpl;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

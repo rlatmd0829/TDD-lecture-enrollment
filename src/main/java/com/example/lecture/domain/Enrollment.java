@@ -1,6 +1,6 @@
-package com.example.lecture.domain.entity;
+package com.example.lecture.domain;
 
-import com.example.lecture.dto.request.EnrollmentRequest;
+import com.example.lecture.application.request.EnrollmentRequest;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
