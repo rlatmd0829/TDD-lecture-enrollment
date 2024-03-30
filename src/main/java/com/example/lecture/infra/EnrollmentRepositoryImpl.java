@@ -1,8 +1,9 @@
-package com.example.lecture.domain.repository;
+package com.example.lecture.infra;
 
 import org.springframework.stereotype.Repository;
 
 import com.example.lecture.domain.entity.Enrollment;
+import com.example.lecture.domain.repository.EnrollmentRepository;
 import com.example.lecture.infra.EnrollmentJpaRepository;
 
 import lombok.RequiredArgsConstructor;

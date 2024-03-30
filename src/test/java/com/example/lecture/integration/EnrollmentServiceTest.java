@@ -60,7 +60,30 @@ class EnrollmentServiceTest {
 		Optional<Lecture> lectureOptional = lectureRepository.findById(lectureId);
 		Lecture lecture = lectureOptional.get();
 
-		System.out.println(lecture.getEnrollments().size());
 		assertThat(lecture.getEnrollments().size()).isEqualTo(30);
+	}
+
+	@Test
+	@DisplayName("한명의 유저가 동시에 특강 신청 테스트")
+	void testConcurrentEnrollmentBySingleUser() throws InterruptedException {
+		Long lectureId = 1L;
+		int numberOfEnrollments = 31;
+
+		ExecutorService executorService = Executors.newFixedThreadPool(numberOfEnrollments);
+
+		for (long i = 0; i < numberOfEnrollments; i++) {
+			executorService.execute(() -> {
+				EnrollmentRequest enrollmentRequest = new EnrollmentRequest(1L);
+				enrollmentService.enroll(lectureId, enrollmentRequest);
+			});
+		}
+
+		executorService.shutdown();
+		executorService.awaitTermination(10, TimeUnit.SECONDS);
+
+		Optional<Lecture> lectureOptional = lectureRepository.findById(lectureId);
+		Lecture lecture = lectureOptional.get();
+
+		assertThat(lecture.getEnrollments().size()).isEqualTo(1);
 	}
 }

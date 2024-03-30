@@ -1,4 +1,4 @@
-package com.example.lecture.domain.repository;
+package com.example.lecture.infra;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import com.example.lecture.domain.entity.Lecture;
+import com.example.lecture.domain.repository.LectureRepository;
 import com.example.lecture.infra.LectureJpaRepository;
 
 import lombok.RequiredArgsConstructor;
