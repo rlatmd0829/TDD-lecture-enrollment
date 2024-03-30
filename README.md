@@ -64,7 +64,6 @@
 - [x]  특강 목록 조회 api 작성 및 단위테스트 작성
 - [x]  레이어드 아키텍처 재구성
 - [x]  lecture에 capacity 추가 및 count 로직 리팩토링
-- [ ]  enrollment 유니크키 추가
-- [ ]  통합테스트 작성
-- [ ]  repositoy 테스트 작성
-- [ ]  리팩토링
+- [x]  enrollment 유니크키 추가
+- [x]  통합테스트 작성
+- [x]  리팩토링
